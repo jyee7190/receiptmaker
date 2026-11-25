@@ -1,0 +1,191 @@
+/* ==========================================================
+   CUTE RECEIPT MAKER  -  style.css
+   Sections: 1) fonts  2) theme variables  3) page + gingham
+             4) header/footer  5) cards  6) editor table
+             7) export bar  8) EXPORT PAGE (png / pdf)
+   ========================================================== */
+
+/* ---------- 1) FONTS ----------
+   Put your font file in assets/fonts/ and keep the name below
+   (or change the url). Until then Comic Sans is used. */
+@font-face {
+  font-family: "MyFont";
+  src: url("assets/fonts/myfont.woff2") format("woff2"),
+       url("assets/fonts/myfont.ttf") format("truetype");
+  font-display: swap;
+}
+
+/* ---------- 2) THEME VARIABLES ---------- */
+:root {
+  --font-main: "MyFont", "Comic Sans MS", "Comic Neue", "Chalkboard SE", cursive;
+
+  --blue: #2596be;          /* export background */
+  --soft-blue: #cfe1f7;     /* gingham + soft fills */
+  --gingham: rgba(150, 190, 240, 0.45);
+  --ink: #3a6285;           /* text */
+  --line: #a9cbe8;          /* table lines */
+  --beige: #f6e9c4;         /* buttons / accents */
+  --beige-dark: #e8d49b;
+  --paper: #fffaf0;
+
+  /* ---- TABLE LINE STYLE (edit these to customise) ----
+     Default = thin straight line. To use hand-drawn art, replace with:
+       --vline: url("assets/lines/vline.svg") center / 100% 100% no-repeat;
+       --hline: url("assets/lines/hline.svg") center / 100% 100% no-repeat;
+     --line-box = thickness of the strip the drawing is stretched into. */
+  --line-w: 1.5px;
+  --line-box: 8px;
+  --vline: linear-gradient(var(--line), var(--line)) center / var(--line-w) 100% no-repeat;
+  --hline: linear-gradient(var(--line), var(--line)) center / 100% var(--line-w) no-repeat;
+}
+
+/* shared line helpers: .vl = line on the right, .hl = line at the bottom */
+.vl, .hl { position: relative; }
+.vl::after {
+  content: ""; position: absolute; top: 0; bottom: 0; right: 0;
+  width: var(--line-box); transform: translateX(50%);
+  background: var(--vline); pointer-events: none;
+}
+.hl::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: var(--line-box); transform: translateY(50%);
+  background: var(--hline); pointer-events: none;
+}
+
+/* ---------- 3) PAGE + GINGHAM ---------- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  color: var(--ink);
+  background-color: #fff;
+  background-image:
+    linear-gradient(90deg, var(--gingham) 50%, transparent 50%),
+    linear-gradient(var(--gingham) 50%, transparent 50%);
+  background-size: 44px 44px;
+}
+.page { max-width: 560px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+.stack { padding: 14px 8px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+
+/* ---------- 4) HEADER / FOOTER ---------- */
+.bar { background: #fff; padding: 10px 14px; }
+.header { display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 0 var(--soft-blue); }
+.header-actions { display: flex; gap: 8px; }
+.footer { display: flex; justify-content: center; box-shadow: 0 -2px 0 var(--soft-blue); }
+.logo { height: 40px; width: auto; display: block; }
+
+/* ---------- 5) CARDS ---------- */
+.card { background: #fff; border-radius: 18px; padding: 14px 10px 16px; box-shadow: 0 3px 0 var(--soft-blue); }
+.card h2 { margin: 0 0 8px 4px; font-size: 20px; font-weight: normal; letter-spacing: 0.08em; }
+.card ol { margin: 0; padding-left: 26px; line-height: 1.6; font-size: 15px; }
+
+/* ---------- 6) EDITOR ---------- */
+.meta { display: flex; gap: 10px; margin-bottom: 12px; }
+.field { flex: 1; display: flex; align-items: center; gap: 6px; font-size: 15px; min-width: 0; }
+.field span { white-space: nowrap; }
+
+input, select, button { font-family: inherit; color: inherit; }
+input[type="text"], input[type="date"] {
+  width: 100%; min-width: 0; font-size: 15px;
+  border: 0; border-bottom: 1.5px solid var(--line); border-radius: 0;
+  background: transparent; padding: 4px 2px; outline: none;
+}
+input:focus { background: #f1f7fd; }
+
+.select-wrap { margin: 4px 14px 14px; position: relative; }
+.select-wrap select {
+  width: 100%; appearance: none; -webkit-appearance: none;
+  font-size: 20px; letter-spacing: 0.3em; text-align: center; text-align-last: center;
+  background: var(--beige); border: 2px solid var(--line); border-radius: 10px; padding: 8px 30px 8px 10px;
+}
+.select-wrap::after { content: "▾"; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+
+.table { margin-top: 4px; }
+.row { display: grid; grid-template-columns: 34px minmax(0, 1fr) 40px 54px 54px 22px; align-items: stretch; position: relative; }
+.row.head { font-size: 12px; text-align: center; line-height: 1.1; }
+.row.head .cell { padding: 6px 2px; display: flex; align-items: center; justify-content: center; }
+.row.head { position: relative; }
+.row.head::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: var(--line-box); transform: translateY(50%); background: var(--hline); }
+.cell { position: relative; min-width: 0; display: flex; align-items: center; justify-content: center; }
+.row .cell > input, .row .rowtotal { flex: 1; min-width: 0; }
+.row:not(.head) { position: relative; }
+.row:not(.head)::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: var(--line-box); transform: translateY(50%); background: var(--hline); pointer-events: none; }
+.row input {
+  width: 100%; height: 40px; border: 0; background: transparent; font-size: 14px;
+  padding: 0 3px; text-align: center; outline: none; border-radius: 0;
+}
+.row input.item { text-align: left; }
+.row .rowtotal { display: flex; align-items: center; justify-content: center; font-size: 13px; overflow: hidden; }
+.del-col { width: 22px; }
+.del {
+  border: 0; background: transparent; color: #9db6cc; font-size: 16px; padding: 0; cursor: pointer; line-height: 1;
+}
+.del:hover, .del:focus-visible { color: #d46a6a; }
+
+.btn {
+  font-size: 15px; background: var(--beige); border: 2px solid var(--beige-dark);
+  border-radius: 12px; padding: 8px 18px; cursor: pointer; box-shadow: 0 2px 0 var(--beige-dark);
+}
+a.btn { display: inline-block; text-decoration: none; color: inherit; }
+.btn:active { transform: translateY(2px); box-shadow: none; }
+.btn:disabled { opacity: 0.55; cursor: wait; }
+.btn.ghost { display: block; margin: 14px auto 6px; background: #fff; border: 2px dashed var(--line); box-shadow: none; }
+
+.grand { display: flex; justify-content: flex-end; align-items: baseline; gap: 14px; padding: 10px 10px 0; font-size: 20px; }
+.grand strong { font-weight: normal; min-width: 80px; text-align: right; }
+
+/* ---------- 7) EXPORT BAR ---------- */
+.export { border-radius: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; box-shadow: 0 3px 0 var(--soft-blue); }
+.export-label { font-size: 16px; margin-right: 4px; }
+.status { flex-basis: 100%; margin: 0; font-size: 13px; }
+.status:empty { display: none; }
+
+/* ---------- 8) EXPORT PAGE ----------
+   Drawn off-screen, then turned into PNG / PDF.
+   Width is fixed at 900px, height is set by JS (3:4 or A4). */
+#exportStage { position: fixed; left: -20000px; top: 0; pointer-events: none; }
+.xp { position: relative; width: 900px; background: var(--blue); font-family: var(--font-main); color: #34506a; overflow: hidden; }
+.xp-paper { position: absolute; left: 0; top: 0; }
+.xp-content {
+  position: absolute; display: flex; flex-direction: column;
+  padding: 52px 44px 34px;
+}
+.xp-meta { display: flex; justify-content: space-between; gap: 30px; font-size: 26px; }
+.xp-meta .f { display: flex; align-items: flex-end; gap: 10px; flex: 1; }
+.xp-meta .f .v { flex: 1; min-height: 34px; border-bottom: 2px solid var(--line); padding: 0 6px 2px; white-space: nowrap; overflow: hidden; }
+
+.xp-banner { position: relative; margin: 34px 34px 30px; border: 2px solid #7ea7c7; border-radius: 4px; height: 76px; display: flex; align-items: center; justify-content: center; font-size: 40px; letter-spacing: 0.34em; }
+.xp-banner .star { position: absolute; width: 58px; height: 58px; }
+.xp-banner .star.l { left: -40px; top: -24px; }
+.xp-banner .star.r { right: -40px; bottom: -24px; }
+
+.xp-table { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.xp-cols { display: grid; grid-template-columns: 10% 38% 12% 20% 20%; }
+.xp-head { font-size: 24px; text-align: center; }
+.xp-head > div { padding: 8px 4px 10px; display: flex; align-items: center; justify-content: center; line-height: 1.1; }
+.xp-head { position: relative; }
+.xp-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: var(--line-box); transform: translateY(50%); background: var(--hline); }
+.xp-body { flex: 1; min-height: 0; }
+.xp-col { display: grid; grid-template-rows: repeat(10, 1fr); position: relative; min-height: 0; }
+.xp-col > div { display: flex; align-items: center; padding: 0 12px; font-size: 26px; overflow: hidden; line-height: 1.15; }
+.xp-col.c-no > div, .xp-col.c-qty > div, .xp-col.c-price > div, .xp-col.c-total > div { justify-content: center; }
+.xp-col.c-item > div { display: block; padding-top: 0; align-self: center; }
+.xp-col.c-item > div span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+.xp-col.c-item { grid-template-rows: repeat(10, 1fr); }
+.xp-col.c-item > div { display: flex; align-items: center; }
+
+.xp-foot { position: relative; margin-top: 0; padding-top: 18px; display: flex; justify-content: flex-end; align-items: baseline; gap: 26px; font-size: 32px; min-height: 76px; }
+.xp-foot::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: var(--line-box); transform: translateY(-50%); background: var(--hline); }
+.xp-foot .cont { font-size: 22px; opacity: 0.7; }
+.xp-pageno { font-size: 24px; margin-top: 14px; }
+
+/* small phones */
+@media (max-width: 360px) {
+  .row { grid-template-columns: 30px minmax(0, 1fr) 36px 50px 50px 20px; }
+  .row input { font-size: 13px; }
+}
+
+/* small text button under the total */
+.link-btn { display: block; margin: 12px auto 0; background: none; border: 0; padding: 6px 10px; font-size: 13px; color: #8aa7c2; text-decoration: underline; cursor: pointer; }
+.link-btn:hover { color: var(--ink); }

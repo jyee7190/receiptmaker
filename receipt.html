@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cute Receipt Maker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+
+    <!-- 1. HEADER -->
+    <header class="bar header">
+      <a href="index.html" aria-label="back to home"><img class="logo" src="assets/logo.svg" alt="my logo"></a>
+      <div class="header-actions" id="headerActions">
+        <!-- future buttons go here -->
+      </div>
+    </header>
+
+    <main class="stack">
+
+      <!-- 2. INSTRUCTIONS -->
+      <section class="card" id="instructions">
+        <h2>how to use</h2>
+        <ol>
+          <li>Pick what you are making: quotation, invoice or receipt.</li>
+          <li>Fill in the date and reference number.</li>
+          <li>Type your items. The totals add up by themselves.</li>
+          <li>Tap <b>+ add new row</b> if you need more lines.</li>
+          <li>Press <b>PNG</b> or <b>PDF</b> to save your cute copy.</li>
+        </ol>
+      </section>
+
+      <!-- 3. EDITING -->
+      <section class="card" id="editor">
+        <div class="meta">
+          <label class="field">
+            <span>date :</span>
+            <input type="date" id="date">
+          </label>
+          <label class="field">
+            <span>ref no :</span>
+            <input type="text" id="ref" maxlength="16" placeholder="e.g. 001" autocomplete="off">
+          </label>
+        </div>
+
+        <div class="select-wrap">
+          <select id="docType" aria-label="Document type">
+            <option value="quotation">quotation</option>
+            <option value="invoice" selected>invoice</option>
+            <option value="receipt">receipt</option>
+          </select>
+        </div>
+
+        <div class="table" id="table">
+          <div class="row head">
+            <div class="cell vl">no.</div>
+            <div class="cell vl">item</div>
+            <div class="cell vl">qty</div>
+            <div class="cell vl">price per unit</div>
+            <div class="cell">total</div>
+            <div class="cell del-col"></div>
+          </div>
+          <div id="rows"></div>
+        </div>
+
+        <button type="button" class="btn ghost" id="addRow">+ add new row</button>
+
+        <div class="grand">
+          <span>total</span>
+          <strong id="grandTotal">0.00</strong>
+        </div>
+        <button type="button" class="link-btn" id="startOver">start over</button>
+      </section>
+
+      <!-- 4. EXPORT -->
+      <section class="bar export" id="exportBar">
+        <span class="export-label">export as :</span>
+        <button type="button" class="btn" id="exportPng">PNG</button>
+        <button type="button" class="btn" id="exportPdf">PDF</button>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </section>
+
+    </main>
+
+    <!-- 5. FOOTER -->
+    <footer class="bar footer">
+      <img class="logo" src="assets/logo.svg" alt="my logo">
+    </footer>
+  </div>
+
+  <!-- hidden stage used to draw the export pages -->
+  <div id="exportStage" aria-hidden="true"></div>
+
+  <script src="vendor/html2canvas.min.js"></script>
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

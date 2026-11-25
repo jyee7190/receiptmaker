@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+  <!-- OVERALL OUTER DIV = background (gingham, or moving sky when switched on) -->
+  <main class="home" id="home">
+
+    <div class="sky" id="sky" aria-hidden="true">
+      <div class="clouds"><i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i></div>
+      <video id="skyVideo" muted loop playsinline preload="none">
+        <source src="assets/video/sky.mp4" type="video/mp4">
+        <source src="assets/video/sky.webm" type="video/webm">
+      </video>
+    </div>
+
+    <button type="button" class="sky-toggle" id="skyToggle" aria-pressed="false">sky: off</button>
+
+    <!-- INNER DIV -->
+    <section class="welcome">
+      <p class="w-a"><span>welcome</span><small>to</small></p>   <!-- A -->
+      <img class="w-b" src="assets/logo.svg" alt="my logo">      <!-- B -->
+      <p class="w-c">what would you like to do?</p>              <!-- C -->
+    </section>
+
+    <!-- BUTTON DIV (add more buttons here later) -->
+    <nav class="actions" aria-label="features">
+      <a class="btn" href="receipt.html">receipt generator</a>
+    </nav>
+
+  </main>
+
+  <script src="home.js"></script>
+</body>
+</html>
